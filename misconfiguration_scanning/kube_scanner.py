@@ -1,3 +1,4 @@
+import subprocess
 import yaml 
 import os
 import cis_kubernetes_checks
@@ -21,12 +22,26 @@ def check_cis_benchmark_rules():
     results = {}
     for rule in cis_rules:
         rule_id = rule['id']
+        rule_name = rule['name']
         rule_check = rule['check']
+        rule_remediation = rule['remediation']
         matching_configs = [config for config in test_configs if config['id'] == rule_id]
 
         if matching_configs:
             rule_config = matching_configs[0]
             results[rule_id] = rule_check(rule_config)
+
+            if results == 'FAIL':
+                results[rule_id] = {
+                    'result': 'FAIL',
+                    'name': rule_name,
+                    'remediation': rule_remediation
+                }
+            else:
+                results[rule_id] = {
+                    'result': 'PASS',
+                    'name': rule_name
+                }
         else:
             results[rule_id] = "Test configuration not found"
     

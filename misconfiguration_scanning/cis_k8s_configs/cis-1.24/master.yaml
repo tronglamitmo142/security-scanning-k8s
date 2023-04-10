@@ -10,3 +10,18 @@
         value: "false"
   remediation: "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and set the --allow-privileged parameter to false."
   scored: true
+- id: 1.1.2
+  text: "Ensure that the API server pod specification file permissions are set to 644 or more restrictive (Scored)"
+  audit: "/bin/sh -c 'if test -e $apiserverconf; then stat -c permissions=%a $apiserverconf; fi'"
+  tests:
+    test_items:
+      - flag: "permissions"
+        compare:
+          op: bitmask
+          value: "644"
+        set: true
+  remediation: |
+    Run the below command (based on the file location on your system) on the
+    master node.
+    For example, chmod 644 $apiserverconf
+  scored: true
