@@ -3,6 +3,6 @@
 **/*.rsa
 **/*.csr
 **/*.json 
-**/*.yaml
 **/*.kubeconfig
 **/*.id_rsa
+encryption-config.yaml

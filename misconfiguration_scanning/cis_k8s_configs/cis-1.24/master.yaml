@@ -1,0 +1,12 @@
+- id: 1.1.1
+  text: "Ensure that the --allow-privileged argument is set to false (Scored)"
+  audit: "cat /Users/nguyenlam/kube-apiserver.yaml | grep 'allow-privileged'"
+  tests:
+    test_items:
+    - flag: "--allow-privileged"
+      set: true
+      compare:
+        op: eq
+        value: "false"
+  remediation: "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and set the --allow-privileged parameter to false."
+  scored: true
